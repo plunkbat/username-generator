@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,27 +13,32 @@
             padding: 20px;
             background-color: #f5f5f5;
         }
+
         .container {
             background-color: white;
             padding: 20px;
             border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
+
         .controls {
             margin-bottom: 20px;
         }
+
         .options {
             display: flex;
             gap: 20px;
             margin-bottom: 20px;
             flex-wrap: wrap;
         }
+
         .username-list {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
             gap: 10px;
             margin-top: 20px;
         }
+
         .username-item {
             background-color: #f8f9fa;
             padding: 10px;
@@ -42,11 +48,13 @@
             text-align: center;
             border: 1px solid #e9ecef;
         }
+
         .username-item:hover {
             background-color: #e9ecef;
             transform: translateY(-2px);
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
+
         button {
             background-color: #007bff;
             color: white;
@@ -57,10 +65,12 @@
             font-size: 16px;
             transition: all 0.2s;
         }
+
         button:hover {
             background-color: #0056b3;
             transform: translateY(-1px);
         }
+
         .style-select {
             padding: 8px;
             font-size: 16px;
@@ -68,41 +78,48 @@
             border: 1px solid #ddd;
             min-width: 150px;
         }
+
         .copied {
             background-color: #28a745 !important;
             color: white;
         }
+
         .settings {
             margin-bottom: 20px;
             padding: 15px;
             background-color: #f8f9fa;
             border-radius: 4px;
         }
+
         .length-control {
             display: flex;
             align-items: center;
             gap: 10px;
             margin-top: 10px;
         }
+
         .score-indicator {
             font-size: 0.8em;
             color: #666;
             margin-top: 5px;
         }
+
         h1 {
             color: #2c3e50;
             margin-bottom: 20px;
         }
+
         .label {
             font-weight: bold;
             color: #495057;
         }
     </style>
 </head>
+
 <body>
     <div class="container">
         <h1>Advanced Username Generator</h1>
-        
+
         <div class="controls">
             <div class="settings">
                 <div class="options">
@@ -164,87 +181,123 @@
 
         function generateUsername(style, lengthPreference) {
             const styleComponents = components[style];
-            
-            const phoneticRules = {
-                hasTripleConsonant: (str) => /[bcdfghjklmnpqrstvwxz]{3,}/i.test(str),
-                hasDoubleConsonant: (str) => /([bcdfghjklmnpqrstvwxz])\1/i.test(str),
-                hasGoodEnding: (str) => /[aeioulmnr][^aeiou]?$/i.test(str),
-                hasGoodLength: (str) => {
-                    const len = str.length;
-                    switch(lengthPreference) {
-                        case 'short': return len >= 5 && len <= 7;
-                        case 'medium': return len >= 7 && len <= 9;
-                        case 'long': return len >= 9 && len <= 12;
-                        default: return len >= 5 && len <= 12;
-                    }
-                }
+
+            const lengthRanges = {
+                'short': { min: 5, max: 7 },
+                'medium': { min: 7, max: 9 },
+                'long': { min: 9, max: 12 }
             };
+
+            const targetLength = lengthRanges[lengthPreference];
 
             const patterns = [
                 () => {
-                    const start = getRandomElement(styleComponents.startConsonants);
-                    const vowel1 = getRandomElement(styleComponents.vowelSounds);
-                    const mid = getRandomElement(styleComponents.midConsonants);
-                    const vowel2 = getRandomElement(styleComponents.vowelSounds);
-                    const end = getRandomElement(styleComponents.endings);
-                    return start + vowel1 + mid + vowel2 + end;
+                    if (lengthPreference === 'short') {
+                        return getRandomElement(styleComponents.startConsonants) +
+                            getRandomElement(styleComponents.vowelSounds) +
+                            getRandomElement(styleComponents.endings);
+                    }
+                    else if (lengthPreference === 'medium') {
+                        return getRandomElement(styleComponents.startConsonants) +
+                            getRandomElement(styleComponents.vowelSounds) +
+                            getRandomElement(styleComponents.midConsonants) +
+                            getRandomElement(styleComponents.endings);
+                    }
+                    else {
+                        return getRandomElement(styleComponents.prefixes) +
+                            getRandomElement(styleComponents.startConsonants) +
+                            getRandomElement(styleComponents.vowelSounds) +
+                            getRandomElement(styleComponents.midConsonants) +
+                            getRandomElement(styleComponents.endings);
+                    }
                 },
                 () => {
-                    const prefix = Math.random() > 0.5 ? getRandomElement(styleComponents.prefixes) : '';
-                    const root = getRandomElement(styleComponents.startConsonants) + 
-                                getRandomElement(styleComponents.vowelSounds) +
-                                getRandomElement(styleComponents.midConsonants);
-                    const suffix = getRandomElement(styleComponents.suffixes);
-                    return prefix + root + suffix;
-                },
-                () => {
-                    const part1 = getRandomElement(styleComponents.startConsonants) + 
-                                getRandomElement(styleComponents.vowelSounds);
-                    const part2 = getRandomElement(styleComponents.midConsonants) + 
-                                getRandomElement(styleComponents.endings);
-                    return part1 + part2;
+                    let name = '';
+
+                    if (lengthPreference === 'long') {
+                        name += getRandomElement(styleComponents.prefixes);
+                    }
+
+                    name += getRandomElement(styleComponents.startConsonants) +
+                        getRandomElement(styleComponents.vowelSounds);
+
+                    if (lengthPreference !== 'short') {
+                        name += getRandomElement(styleComponents.midConsonants);
+                    }
+
+                    if (lengthPreference === 'long') {
+                        name += getRandomElement(styleComponents.suffixes);
+                    } else {
+                        name += getRandomElement(styleComponents.endings);
+                    }
+
+                    return name;
                 }
             ];
 
             let username;
             let attempts = 0;
-            const maxAttempts = 10;
+            const maxAttempts = 15;
 
             do {
                 username = getRandomElement(patterns)();
                 attempts++;
-                
+
                 username = username.toLowerCase()
                     .replace(/^(.)/, (match) => Math.random() > 0.5 ? match.toUpperCase() : match)
                     .replace(/([^aeiou])\1\1/g, '$1$1')
-                    .replace(/([bcdfghjklmnpqrstvwxz]{3})/g, (match) => 
+                    .replace(/([bcdfghjklmnpqrstvwxz]{3})/g, (match) =>
                         match.slice(0, 2) + getRandomElement(styleComponents.vowelSounds) + match.slice(2));
 
+                if (username.length < targetLength.min) {
+                    username += getRandomElement(styleComponents.endings);
+                }
+                if (username.length > targetLength.max) {
+                    username = username.slice(0, targetLength.max);
+                    if (!/[aeioulmnr]$/.test(username)) {
+                        username += getRandomElement(styleComponents.vowelSounds);
+                    }
+                }
+
             } while (
-                (phoneticRules.hasTripleConsonant(username) ||
-                !phoneticRules.hasGoodEnding(username) ||
-                !phoneticRules.hasGoodLength(username)) &&
+                (username.length < targetLength.min ||
+                    username.length > targetLength.max ||
+                    /[bcdfghjklmnpqrstvwxz]{3,}/.test(username) ||
+                    !/[aeioulmnr][^aeiou]?$/.test(username)) &&
                 attempts < maxAttempts
             );
 
             return username;
         }
 
-        function scoreUsername(username) {
+        function scoreUsername(username, lengthPreference) {
             let score = 100;
-            
+            const lengthRanges = {
+                'short': { min: 5, max: 7 },
+                'medium': { min: 7, max: 9 },
+                'long': { min: 9, max: 12 }
+            };
+
+            const targetLength = lengthRanges[lengthPreference];
+
+            if (username.length < targetLength.min || username.length > targetLength.max) {
+                score -= 30;
+            }
+
             if (/[bcdfghjklmnpqrstvwxz]{3,}/.test(username)) score -= 20;
             if (/[aeiou]{3,}/.test(username)) score -= 20;
-            if (username.length < 5) score -= 10;
-            if (username.length > 12) score -= 10;
             if (!/[aeiou]/.test(username)) score -= 50;
             if (/(\w)\1\1/.test(username)) score -= 30;
-            
+
             if (/^[A-Z]/.test(username)) score += 5;
             if (/[aeiou].*[aeiou]/.test(username)) score += 10;
             if (/[aeioulmnr]$/.test(username)) score += 5;
-            
-            return score;
+
+            if (username.length === Math.floor((targetLength.min + targetLength.max) / 2)) {
+                score += 10;
+            }
+
+            return Math.max(0, Math.min(100, score));
         }
 
         function generateUsernames() {
@@ -258,21 +311,21 @@
                 const username = generateUsername(style, lengthPref);
                 candidates.push({
                     name: username,
-                    score: scoreUsername(username)
+                    score: scoreUsername(username, lengthPref)
                 });
             }
 
             candidates.sort((a, b) => b.score - a.score);
             const bestUsernames = candidates.slice(0, 12);
 
-            bestUsernames.forEach(({name, score}) => {
+            bestUsernames.forEach(({ name, score }) => {
                 const usernameElement = document.createElement('div');
                 usernameElement.className = 'username-item';
                 usernameElement.innerHTML = `
-                    ${name}
-                    <div class="score-indicator">Quality: ${score}%</div>
-                `;
-                usernameElement.onclick = function() {
+            ${name}
+            <div class="score-indicator">Quality: ${score}%</div>
+        `;
+                usernameElement.onclick = function () {
                     navigator.clipboard.writeText(name);
                     this.classList.add('copied');
                     const originalContent = this.innerHTML;
@@ -289,4 +342,5 @@
         generateUsernames();
     </script>
 </body>
+
 </html>
