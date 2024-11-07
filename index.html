@@ -1,160 +1,292 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-   <meta charset="UTF-8">
-   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>Username Generator</title>
-   <style>
-       body {
-           font-family: 'Arial', sans-serif;
-           max-width: 800px;
-           margin: 0 auto;
-           padding: 20px;
-           background-color: #f5f5f5;
-       }
-       .container {
-           background-color: white;
-           padding: 20px;
-           border-radius: 8px;
-           box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-       }
-       .controls {
-           margin-bottom: 20px;
-       }
-       .options {
-           display: flex;
-           gap: 20px;
-           margin-bottom: 20px;
-       }
-       .username-list {
-           display: grid;
-           grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-           gap: 10px;
-           margin-top: 20px;
-       }
-       .username-item {
-           background-color: #f8f9fa;
-           padding: 10px;
-           border-radius: 4px;
-           cursor: pointer;
-           transition: background-color 0.2s;
-       }
-       .username-item:hover {
-           background-color: #e9ecef;
-       }
-       button {
-           background-color: #007bff;
-           color: white;
-           border: none;
-           padding: 10px 20px;
-           border-radius: 4px;
-           cursor: pointer;
-           font-size: 16px;
-       }
-       button:hover {
-           background-color: #0056b3;
-       }
-       .style-select {
-           padding: 8px;
-           font-size: 16px;
-           border-radius: 4px;
-           border: 1px solid #ddd;
-       }
-       .copied {
-           background-color: #28a745 !important;
-           color: white;
-       }
-   </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Username Generator</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .controls {
+            margin-bottom: 20px;
+        }
+        .options {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        .username-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 10px;
+            margin-top: 20px;
+        }
+        .username-item {
+            background-color: #f8f9fa;
+            padding: 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+            border: 1px solid #e9ecef;
+        }
+        .username-item:hover {
+            background-color: #e9ecef;
+            transform: translateY(-2px);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.2s;
+        }
+        button:hover {
+            background-color: #0056b3;
+            transform: translateY(-1px);
+        }
+        .style-select {
+            padding: 8px;
+            font-size: 16px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+            min-width: 150px;
+        }
+        .copied {
+            background-color: #28a745 !important;
+            color: white;
+        }
+        .settings {
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 4px;
+        }
+        .length-control {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        .score-indicator {
+            font-size: 0.8em;
+            color: #666;
+            margin-top: 5px;
+        }
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+        .label {
+            font-weight: bold;
+            color: #495057;
+        }
+    </style>
 </head>
 <body>
-   <div class="container">
-       <h1>Username Generator</h1>
-       
-       <div class="controls">
-           <div class="options">
-               <select id="style" class="style-select">
-                   <option value="fantasy">Fantasy Style</option>
-                   <option value="scifi">Sci-fi Style</option>
-                   <option value="normal">Normal Style</option>
-               </select>
-               <button onclick="generateUsernames()">Generate New Names</button>
-           </div>
-       </div>
+    <div class="container">
+        <h1>Advanced Username Generator</h1>
+        
+        <div class="controls">
+            <div class="settings">
+                <div class="options">
+                    <div>
+                        <span class="label">Style:</span>
+                        <select id="style" class="style-select">
+                            <option value="fantasy">Fantasy Style</option>
+                            <option value="scifi">Sci-fi Style</option>
+                            <option value="normal">Normal Style</option>
+                        </select>
+                    </div>
+                    <div>
+                        <span class="label">Length:</span>
+                        <select id="length" class="style-select">
+                            <option value="short">Short (5-7)</option>
+                            <option value="medium" selected>Medium (7-9)</option>
+                            <option value="long">Long (9-12)</option>
+                        </select>
+                    </div>
+                    <button onclick="generateUsernames()">Generate New Names</button>
+                </div>
+            </div>
+        </div>
 
-       <div id="usernameList" class="username-list"></div>
-   </div>
+        <div id="usernameList" class="username-list"></div>
+    </div>
 
-   <script>
-       const components = {
-           fantasy: {
-               startConsonants: ['br', 'cr', 'dr', 'fr', 'gr', 'th', 'tr', 'ph', 'my', 'ly', 'wr'],
-               midConsonants: ['nd', 'ld', 'lm', 'ln', 'th', 'rm', 'rn', 'mm'],
-               vowelSounds: ['ae', 'ei', 'ya', 'io', 'au', 'eo', 'ie'],
-               endings: ['or', 'us', 'ix', 'is', 'ar', 'yn', 'el', 'il']
-           },
-           scifi: {
-               startConsonants: ['zx', 'kr', 'vr', 'nx', 'px', 'xt', 'qt', 'zy'],
-               midConsonants: ['rx', 'xt', 'xx', 'zz', 'vx', 'nx'],
-               vowelSounds: ['ax', 'ex', 'ox', 'yx', 'ai', 'eo'],
-               endings: ['on', 'ax', 'ex', 'ix', 'ox', 'tx']
-           },
-           normal: {
-               startConsonants: ['br', 'cr', 'dr', 'fr', 'gr', 'tr', 'st', 'pl', 'cl'],
-               midConsonants: ['nd', 'nt', 'st', 'rt', 'mp', 'rk'],
-               vowelSounds: ['a', 'e', 'i', 'o', 'u', 'ay', 'ee'],
-               endings: ['er', 'or', 'ar', 'en', 'on', 'an']
-           }
-       };
+    <script>
+        const components = {
+            fantasy: {
+                startConsonants: ['br', 'cr', 'dr', 'fr', 'gr', 'th', 'tr', 'ph', 'my', 'ly', 'wr', 'sl', 'sw', 'gl', 'kh', 'rh', 'sh'],
+                midConsonants: ['nd', 'ld', 'lm', 'ln', 'th', 'rm', 'rn', 'mm', 'str', 'ndr', 'ldr', 'nth'],
+                vowelSounds: ['ae', 'ei', 'ya', 'io', 'au', 'eo', 'ie', 'ai', 'ea', 'yi', 'ua', 'ao'],
+                endings: ['or', 'us', 'ix', 'is', 'ar', 'yn', 'el', 'il', 'wen', 'wyn', 'mir', 'thor', 'ion', 'ian'],
+                prefixes: ['el', 'al', 'kal', 'syl', 'dar', 'mor', 'aer', 'star'],
+                suffixes: ['dor', 'thor', 'mir', 'wyn', 'stan', 'mar', 'vas']
+            },
+            scifi: {
+                startConsonants: ['zx', 'kr', 'vr', 'nx', 'px', 'xt', 'qt', 'zy', 'cy', 'syn', 'tech', 'neo'],
+                midConsonants: ['rx', 'xt', 'xx', 'zz', 'vx', 'nx', 'bt', 'pt', 'kt', 'mt'],
+                vowelSounds: ['ax', 'ex', 'ox', 'yx', 'ai', 'eo', 'io', 'ae', 'ya', 'yi'],
+                endings: ['on', 'ax', 'ex', 'ix', 'ox', 'tx', 'tron', 'dyne', 'tech', 'sys'],
+                prefixes: ['cyber', 'neo', 'tech', 'quantum', 'nano', 'syn', 'bio'],
+                suffixes: ['tron', 'dyne', 'tech', 'sys', 'core', 'net']
+            },
+            normal: {
+                startConsonants: ['br', 'cr', 'dr', 'fr', 'gr', 'tr', 'st', 'pl', 'cl', 'sp', 'sk', 'bl'],
+                midConsonants: ['nd', 'nt', 'st', 'rt', 'mp', 'rk', 'rd', 'ng', 'nk'],
+                vowelSounds: ['a', 'e', 'i', 'o', 'u', 'ay', 'ee', 'oo', 'ea', 'ie'],
+                endings: ['er', 'or', 'ar', 'en', 'on', 'an', 'ing', 'ey', 'ay'],
+                prefixes: ['sun', 'sky', 'star', 'moon', 'wind', 'storm'],
+                suffixes: ['son', 'ton', 'man', 'mind', 'star', 'light']
+            }
+        };
 
-       function getRandomElement(array) {
-           return array[Math.floor(Math.random() * array.length)];
-       }
+        function getRandomElement(array) {
+            return array[Math.floor(Math.random() * array.length)];
+        }
 
-       function generateUsername(style) {
-           const styleComponents = components[style];
-           const patterns = [
-               () => getRandomElement(styleComponents.startConsonants) + 
-                     getRandomElement(styleComponents.vowelSounds) + 
-                     getRandomElement(styleComponents.endings),
-               
-               () => getRandomElement(styleComponents.startConsonants) + 
-                     getRandomElement(styleComponents.vowelSounds) + 
-                     getRandomElement(styleComponents.midConsonants) + 
-                     getRandomElement(styleComponents.vowelSounds),
-               
-               () => getRandomElement(styleComponents.startConsonants) + 
-                     getRandomElement(styleComponents.vowelSounds) + 
-                     getRandomElement(styleComponents.midConsonants) + 
-                     getRandomElement(styleComponents.endings)
-           ];
+        function generateUsername(style, lengthPreference) {
+            const styleComponents = components[style];
+            
+            const phoneticRules = {
+                hasTripleConsonant: (str) => /[bcdfghjklmnpqrstvwxz]{3,}/i.test(str),
+                hasDoubleConsonant: (str) => /([bcdfghjklmnpqrstvwxz])\1/i.test(str),
+                hasGoodEnding: (str) => /[aeioulmnr][^aeiou]?$/i.test(str),
+                hasGoodLength: (str) => {
+                    const len = str.length;
+                    switch(lengthPreference) {
+                        case 'short': return len >= 5 && len <= 7;
+                        case 'medium': return len >= 7 && len <= 9;
+                        case 'long': return len >= 9 && len <= 12;
+                        default: return len >= 5 && len <= 12;
+                    }
+                }
+            };
 
-           return getRandomElement(patterns)();
-       }
+            const patterns = [
+                () => {
+                    const start = getRandomElement(styleComponents.startConsonants);
+                    const vowel1 = getRandomElement(styleComponents.vowelSounds);
+                    const mid = getRandomElement(styleComponents.midConsonants);
+                    const vowel2 = getRandomElement(styleComponents.vowelSounds);
+                    const end = getRandomElement(styleComponents.endings);
+                    return start + vowel1 + mid + vowel2 + end;
+                },
+                () => {
+                    const prefix = Math.random() > 0.5 ? getRandomElement(styleComponents.prefixes) : '';
+                    const root = getRandomElement(styleComponents.startConsonants) + 
+                                getRandomElement(styleComponents.vowelSounds) +
+                                getRandomElement(styleComponents.midConsonants);
+                    const suffix = getRandomElement(styleComponents.suffixes);
+                    return prefix + root + suffix;
+                },
+                () => {
+                    const part1 = getRandomElement(styleComponents.startConsonants) + 
+                                getRandomElement(styleComponents.vowelSounds);
+                    const part2 = getRandomElement(styleComponents.midConsonants) + 
+                                getRandomElement(styleComponents.endings);
+                    return part1 + part2;
+                }
+            ];
 
-       function generateUsernames() {
-           const style = document.getElementById('style').value;
-           const usernameList = document.getElementById('usernameList');
-           usernameList.innerHTML = '';
+            let username;
+            let attempts = 0;
+            const maxAttempts = 10;
 
-           for (let i = 0; i < 12; i++) {
-               const username = generateUsername(style);
-               const usernameElement = document.createElement('div');
-               usernameElement.className = 'username-item';
-               usernameElement.textContent = username;
-               usernameElement.onclick = function() {
-                   navigator.clipboard.writeText(username);
-                   this.classList.add('copied');
-                   this.textContent = 'Copied!';
-                   setTimeout(() => {
-                       this.classList.remove('copied');
-                       this.textContent = username;
-                   }, 1000);
-               };
-               usernameList.appendChild(usernameElement);
-           }
-       }
+            do {
+                username = getRandomElement(patterns)();
+                attempts++;
+                
+                username = username.toLowerCase()
+                    .replace(/^(.)/, (match) => Math.random() > 0.5 ? match.toUpperCase() : match)
+                    .replace(/([^aeiou])\1\1/g, '$1$1')
+                    .replace(/([bcdfghjklmnpqrstvwxz]{3})/g, (match) => 
+                        match.slice(0, 2) + getRandomElement(styleComponents.vowelSounds) + match.slice(2));
 
-       generateUsernames();
-   </script>
+            } while (
+                (phoneticRules.hasTripleConsonant(username) ||
+                !phoneticRules.hasGoodEnding(username) ||
+                !phoneticRules.hasGoodLength(username)) &&
+                attempts < maxAttempts
+            );
+
+            return username;
+        }
+
+        function scoreUsername(username) {
+            let score = 100;
+            
+            if (/[bcdfghjklmnpqrstvwxz]{3,}/.test(username)) score -= 20;
+            if (/[aeiou]{3,}/.test(username)) score -= 20;
+            if (username.length < 5) score -= 10;
+            if (username.length > 12) score -= 10;
+            if (!/[aeiou]/.test(username)) score -= 50;
+            if (/(\w)\1\1/.test(username)) score -= 30;
+            
+            if (/^[A-Z]/.test(username)) score += 5;
+            if (/[aeiou].*[aeiou]/.test(username)) score += 10;
+            if (/[aeioulmnr]$/.test(username)) score += 5;
+            
+            return score;
+        }
+
+        function generateUsernames() {
+            const style = document.getElementById('style').value;
+            const lengthPref = document.getElementById('length').value;
+            const usernameList = document.getElementById('usernameList');
+            usernameList.innerHTML = '';
+
+            const candidates = [];
+            for (let i = 0; i < 30; i++) {
+                const username = generateUsername(style, lengthPref);
+                candidates.push({
+                    name: username,
+                    score: scoreUsername(username)
+                });
+            }
+
+            candidates.sort((a, b) => b.score - a.score);
+            const bestUsernames = candidates.slice(0, 12);
+
+            bestUsernames.forEach(({name, score}) => {
+                const usernameElement = document.createElement('div');
+                usernameElement.className = 'username-item';
+                usernameElement.innerHTML = `
+                    ${name}
+                    <div class="score-indicator">Quality: ${score}%</div>
+                `;
+                usernameElement.onclick = function() {
+                    navigator.clipboard.writeText(name);
+                    this.classList.add('copied');
+                    const originalContent = this.innerHTML;
+                    this.innerHTML = 'Copied!';
+                    setTimeout(() => {
+                        this.classList.remove('copied');
+                        this.innerHTML = originalContent;
+                    }, 1000);
+                };
+                usernameList.appendChild(usernameElement);
+            });
+        }
+
+        generateUsernames();
+    </script>
 </body>
 </html>
